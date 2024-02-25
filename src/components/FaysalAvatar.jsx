@@ -4,6 +4,7 @@ import { useFrame } from "@react-three/fiber"
 import { motion } from "framer-motion-3d"
 import { ContactShadows } from "@react-three/drei"
 import { useThree } from "@react-three/fiber"
+import { MeshDepthMaterial } from "three"
 
 export function FaysalAvatar(props) {
   const { section } = props
@@ -17,38 +18,30 @@ export function FaysalAvatar(props) {
       actions["hi"].play()
       setAnimationPlayed(true)
     } else if (section === 1 && !animationPlayed) {
-      actions["hi"].fadeIn().play()
+      actions["hi"].fadeIn(2).play()
     } else if (section === 1 && animationPlayed) {
-      actions["hi"].stop()
+      actions["hi"].fadeOut(0.2)
       actions["landing"].fadeIn(0.5).play()
       setAnimationPlayed(false)
       setTimeout(() => {
-        actions["landing"].fadeOut(0.5).stop()
+        actions["landing"].fadeOut(0.2).stop()
         setCurrentAnimation("hi")
-      }, 2000)
+      }, 2500)
     }
   }, [section, animationPlayed, actions, currentAnimation])
 
   return (
     <>
       {" "}
-      <ContactShadows
-        rotation={[Math.PI / -2, 0, 0]}
-        position={[0, -1.5, 0]}
-        opacity={0.5}
-        width={10}
-        height={10}
-        blur={1}
-      ></ContactShadows>
       <group position={[1.3, -0.5, 0]}>
-        <ContactShadows
+        {/* <ContactShadows
           rotation={[Math.PI / -2, 0, 0]}
           position={[0, -1.5, 0]}
           opacity={0.5}
           width={10}
           height={10}
           blur={1}
-        ></ContactShadows>
+        ></ContactShadows> */}
         <motion.group
           rotation={[Math.PI / -8, 0, 0]}
           ref={group}
@@ -97,17 +90,19 @@ export function FaysalAvatar(props) {
           </group>
         </motion.group>{" "}
         <mesh
-          position={[0, -0.3, -0.2]}
+          position={[0, -0.2, -0.2]}
           rotation={[Math.PI / -8, 0, 0]}
-          scale={[1, 1, 1]}
+          scale={[0.2, 0.2, 0.5]}
         >
-          <boxGeometry attach="geometry" args={[1, 0.1, 2]} />
+          <circleGeometry args={[3.8, 32]} />
           <meshStandardMaterial
             attach="material"
-            metalness={0.5}
-            transparent
-            opacity={1}
-            color="red"
+            color={0x2ecc71}
+            metalness={0.8} // Adjust metalness
+            roughness={0.1} // Adjust roughness
+            emissive={0x00ff00} // Adjust emissive color (green)
+            emissiveIntensity={0.5} // Adjust emissive intensity
+            transparent={false}
           />
         </mesh>
       </group>

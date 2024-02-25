@@ -90,7 +90,7 @@ export const Header = (props) => {
                     onClick={() => {
                       onSectionChange(0)
                     }}
-                    className=" py-2 pr-4 pl-3 text-white rounded bg-primary-700 min-[800px]:bg-transparent min-[800px]:text-primary-700 min-[800px]:p-0 dark:text-white"
+                    className=" py-2 pr-4 pl-3 text-black rounded bg-primary-700 min-[800px]:bg-transparent min-[800px]:text-primary-700 min-[800px]:p-0 dark:text-white"
                     aria-current="page"
                   >
                     Home
@@ -99,7 +99,7 @@ export const Header = (props) => {
                 <li>
                   <button
                     onClick={() => {
-                      onSectionChange(2)
+                      onSectionChange(1)
                     }}
                     className=" py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 min-[800px]:hover:bg-transparent min-[800px]:border-0 min-[800px]:hover:text-primary-700 min-[800px]:p-0 dark:text-gray-400 min-[800px]:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white min-[800px]:dark:hover:bg-transparent dark:border-gray-700"
                   >
@@ -109,7 +109,7 @@ export const Header = (props) => {
                 <li>
                   <button
                     onClick={() => {
-                      onSectionChange(3)
+                      onSectionChange(2)
                     }}
                     className=" py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 min-[800px]:hover:bg-transparent min-[800px]:border-0 min-[800px]:hover:text-primary-700 min-[800px]:p-0 dark:text-gray-400 min-[800px]:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white min-[800px]:dark:hover:bg-transparent dark:border-gray-700"
                   >
@@ -119,7 +119,7 @@ export const Header = (props) => {
                 <li>
                   <button
                     onClick={() => {
-                      onSectionChange(4)
+                      onSectionChange(3)
                     }}
                     className=" py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 min-[800px]:hover:bg-transparent min-[800px]:border-0 min-[800px]:hover:text-primary-700 min-[800px]:p-0 dark:text-gray-400 min-[800px]:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white min-[800px]:dark:hover:bg-transparent dark:border-gray-700"
                   >
@@ -129,7 +129,7 @@ export const Header = (props) => {
                 <li>
                   <button
                     onClick={() => {
-                      onSectionChange(5)
+                      onSectionChange(4.15)
                     }}
                     className=" py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 min-[800px]:hover:bg-transparent min-[800px]:border-0 min-[800px]:hover:text-primary-700 min-[800px]:p-0 dark:text-gray-400 min-[800px]:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white min-[800px]:dark:hover:bg-transparent dark:border-gray-700"
                   >

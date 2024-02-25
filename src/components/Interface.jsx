@@ -3,6 +3,9 @@ import React from "react"
 import { useAnimations, useGLTF } from "@react-three/drei"
 import { useFrame } from "@react-three/fiber"
 import { useThree } from "@react-three/fiber"
+import { HiArrowNarrowRight, HiCalendar } from "react-icons/hi"
+import { Button, Timeline } from "flowbite-react"
+
 const Section = (props) => {
   const { children } = props
   return (
@@ -29,12 +32,12 @@ export const Interface = () => {
           <h1 className="red font-[50px]">About</h1>
         </AboutSection>
 
-        <Section>
+        <EducationSection>
           <h1>EDUCATION</h1>
-        </Section>
-        <Section>
+        </EducationSection>
+        <WorkSection>
           <h1>WORK EXPERIENCE</h1>
-        </Section>
+        </WorkSection>
         <SkillsSection>
           <h1>Skills</h1>
         </SkillsSection>
@@ -98,7 +101,7 @@ const SkillsSection = () => {
   return (
     <Section>
       <h1 className="text-5xl font-bold">Skills</h1>
-      <motion.div whileInView={"visible"} className="mt-8 space-y-4">
+      <motion.div whileInView={"visible"} className="mt-8 space-y-4 mb-[80px]">
         {skills.map((skill, index) => (
           <div className="w-64" key={index}>
             <motion.h3
@@ -225,8 +228,8 @@ const ContactSection = () => {
                   </form>
                 </div>
               </div>
-              <div className="md:mb-12 lg:mb-0">
-                <div className="relative h-[600px] w-[350px] rounded-lg shadow-lg dark:shadow-black/20">
+              <div className="md:mb-12 lg:mb-0 max-[1035px]:hidden">
+                <div className="relative  h-[600px] w-[350px] rounded-lg shadow-lg dark:shadow-black/20">
                   <iframe
                     src="https://maps.google.com/maps?q=Pozna%C5%84%2C%20Poland&t=k&z=13&ie=UTF8&iwloc=&output=embed"
                     className="absolute left-0 top-0 h-full w-full rounded-lg"
@@ -241,5 +244,144 @@ const ContactSection = () => {
         </div>
       </section>
     </Section>
+  )
+}
+
+const WorkSection = () => {
+  return (
+    <>
+      <motion.section
+        initial={{ opacity: 0, y: 150 }}
+        whileInView={{
+          opacity: 1,
+          y: 0,
+          transition: { duration: 1 },
+        }}
+        exit={{ opacity: 0, y: 100 }}
+        transition={{ duration: 0.5 }}
+        className=" self-start"
+      >
+        <Timeline className=" right-[-45px] max-w-[50%]">
+          <Timeline.Item className="">
+            <Timeline.Point icon={HiCalendar} />
+            <Timeline.Content>
+              <Timeline.Time>
+                From August 2023 to September 2023 - Poznan , Poland
+              </Timeline.Time>
+              <Timeline.Title>Poznan University of Technology</Timeline.Title>
+              <Timeline.Body>
+                - Actively contributed to team-based problem-solving endeavors,
+                analyzing issues and devising solutions collectively. <br></br>{" "}
+                -Engaged in workshops and presentations to enhance
+                project-related knowledge and skills, fostering personal and
+                professional growth. try to make this more small. <br></br>{" "}
+                -Implemented meticulous sorting and organization of files,
+                spreadsheets, and reports to optimize accessibility and workflow
+                efficiency.
+              </Timeline.Body>
+              {/* <Button>
+              Learn More
+              <HiArrowNarrowRight className="ml-2 h-3 w-3" />
+            </Button> */}
+            </Timeline.Content>
+          </Timeline.Item>
+          <Timeline.Item>
+            <Timeline.Point icon={HiCalendar} />
+            <Timeline.Content>
+              <Timeline.Time>
+                {" "}
+                From September 2022 to December 2022 - Rouib, Algeria
+              </Timeline.Time>
+              <Timeline.Title>
+                National Company for Industrial Vehicles
+              </Timeline.Title>
+              <Timeline.Body>
+                - Developing hands-on expertise in mechanical engineering tools
+                and software. <br></br> -Engaged in workshops and presentations
+                to enhance project-related knowledge and skills, fostering
+                personal and professional growth. try to make this more small.
+              </Timeline.Body>
+            </Timeline.Content>
+          </Timeline.Item>
+          <Timeline.Item>
+            <Timeline.Point icon={HiCalendar} />
+            <Timeline.Content>
+              <Timeline.Time>
+                From October 2020 to October 2021 - Rouib, Algeria
+              </Timeline.Time>
+              <Timeline.Title>
+                Customer Service Specialist at Call Center
+              </Timeline.Title>
+              <Timeline.Body>
+                - Demonstrated exceptional communication skills, handling an
+                average of 40 customer inquiries per day with professionalism
+                and efficiency. <br></br> -Assisted customers with their
+                technical and operational queries related to products via Avaya
+                desktop, phone, email, chat, and ticketing systems.
+              </Timeline.Body>
+            </Timeline.Content>
+          </Timeline.Item>
+        </Timeline>
+      </motion.section>
+      -
+    </>
+  )
+}
+const EducationSection = () => {
+  return (
+    <>
+      <motion.section
+        initial={{ opacity: 0, y: 150 }}
+        whileInView={{
+          opacity: 1,
+          y: 0,
+          transition: { duration: 1 },
+        }}
+        exit={{ opacity: 0, y: 100 }}
+        transition={{ duration: 0.5 }}
+        className="self-start"
+      >
+        <Timeline className="s right-[-45px] max-w-[50%] mb-[17%]">
+          <Timeline.Item className="">
+            <Timeline.Point icon={HiCalendar} />
+            <Timeline.Content>
+              <Timeline.Time>
+                Since February 2023 Poznan University of Technology Poznań,
+                Poland
+              </Timeline.Time>
+              <Timeline.Title className="my-[5px]">
+                MSc Mechanical and Automotive Engineering
+              </Timeline.Title>
+              <Timeline.Body>
+                - Thesis Statement:Application of selected eco-design strategies
+                in the development of Electric Scooters. <br></br> -Implemented
+                meticulous sorting and organization of files, spreadsheets, and
+                reports to optimize accessibility and workflow efficiency.
+              </Timeline.Body>
+              {/* <Button>
+              Learn More
+              <HiArrowNarrowRight className="ml-2 h-3 w-3" />
+            </Button> */}
+            </Timeline.Content>
+          </Timeline.Item>
+          <Timeline.Item>
+            <Timeline.Point icon={HiCalendar} />
+            <Timeline.Content>
+              <Timeline.Time>
+                University M’hamed Bougara Boumerdes Algeria From September 2017
+                to September 2021 - Boumerdes, Algeria
+              </Timeline.Time>
+              <Timeline.Title className="my-[5px]">
+                BSc Mechanical Engineering
+              </Timeline.Title>
+              <Timeline.Body>
+                Thesis Statement: Design and Simulation of an Ampliroll Box on
+                k120
+              </Timeline.Body>
+            </Timeline.Content>
+          </Timeline.Item>
+        </Timeline>
+      </motion.section>
+    </>
   )
 }

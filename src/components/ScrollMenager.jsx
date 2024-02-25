@@ -9,10 +9,12 @@ export const ScrollManager = (props) => {
   const lastScroll = useScroll()
   const isAnimating = useRef(false)
 
-  data.fill.classList.add("top-0")
-  data.fill.classList.add("abosolute")
+  // data.fill.classList.add("top-0")
+  // data.fill.classList.add("abosolute")
 
   useEffect(() => {
+    // console.log("scroll", data.scroll.current)
+    // console.log("data.pages", data.pages)
     gsap.to(data.el, {
       duration: 1,
       scrollTop: section * data.el.clientHeight,
@@ -20,7 +22,7 @@ export const ScrollManager = (props) => {
       onStart: () => (isAnimating.current = true),
       onComplete: () => (isAnimating.current = false),
     })
-  }, [section])
+  }, [section, data.scroll.current])
 
   useFrame(() => {
     if (isAnimating.current) {
@@ -38,38 +40,66 @@ export const ScrollManager = (props) => {
       onSectionChange(0)
     }
     // Logic for Page 2
-    if (curSection === 1) {
+    if (curSection) {
       // Check if scrolling down and at the top of page 2
-      if (data.scroll.current > lastScroll.current) {
+      if (
+        data.scroll.current > lastScroll.current &&
+        data.scroll.current < 1 / (data.pages - 2)
+      ) {
         onSectionChange(2)
       }
     }
 
     // Logic for Page 3
-    if (curSection === 2) {
+    if (curSection === 2 || curSection === 3) {
       // Check if scrolling down and at the top of page 3
-      if (data.scroll.current > lastScroll.current) {
+      if (
+        data.scroll.current > lastScroll.current &&
+        data.scroll.current < 3 / (data.pages - 1)
+      ) {
         onSectionChange(3)
       }
-      //   // Check if scrolling up and at the bottom of page 3
-      //   if (data.scroll.current < lastScroll.current) {
-      //     onSectionChange(2)
-      //   }
-      // }
-
-      // // Logic for Page 4
-      // if (curSection === 3) {
-      //   // Check if scrolling down and at the top of page 4
-      //   if (data.scroll.current > lastScroll.current) {
-      //     // Assuming you have a function for handling Page 4 change
-      //     onSectionChange(4)
-      //   }
-      //   // Check if scrolling up and at the bottom of page 4
-      //   if (data.scroll.current < lastScroll.current) {
-      //     onSectionChange(3)
-      //   }
+      // Check if scrolling up and at the bottom of page 2
+      if (
+        data.scroll.current < lastScroll.current &&
+        data.scroll.current > 2 / (data.pages - 1)
+      ) {
+        onSectionChange(1)
+      }
     }
-
+    // Logic for Page 4
+    if (curSection === 3 || curSection == 4) {
+      // Check if scrolling down and at the top of page 4
+      if (
+        data.scroll.current > lastScroll.current &&
+        data.scroll.current < 4 / (data.pages - 1)
+      ) {
+        onSectionChange(4)
+      }
+      // Check if scrolling up and at the bottom of page 3
+      if (
+        data.scroll.current < lastScroll.current &&
+        data.scroll.current > 3 / (data.pages - 1)
+      ) {
+        onSectionChange(2)
+      }
+    }
+    if (curSection === 4) {
+      // Check if scrolling down and at the top of page 5
+      if (
+        data.scroll.current > lastScroll.current &&
+        data.scroll.current < 5 / (data.pages - 1)
+      ) {
+        onSectionChange(5)
+      }
+      // Check if scrolling up and at the bottom of page 4
+      if (
+        data.scroll.current < lastScroll.current &&
+        data.scroll.current > 4 / (data.pages - 1)
+      ) {
+        onSectionChange(3)
+      }
+    }
     lastScroll.current = data.scroll.current
   })
   return null

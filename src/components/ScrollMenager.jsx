@@ -9,8 +9,8 @@ export const ScrollManager = (props) => {
   const lastScroll = useScroll()
   const isAnimating = useRef(false)
 
-  // data.fill.classList.add("top-0")
-  // data.fill.classList.add("abosolute")
+  data.fill.classList.add("top-0")
+  data.fill.classList.add("abosolute")
 
   useEffect(() => {
     // console.log("scroll", data.scroll.current)

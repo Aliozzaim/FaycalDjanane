@@ -18,32 +18,22 @@ const Section = (props) => {
       }}
       exit={{ opacity: 0, y: 100 }}
       transition={{ duration: 0.5 }}
-      className="mx-auto  h-screen w-screen flex flex-col justify-center items-start p-8"
+      className="mx-auto  h-screen w-screen flex flex-col justify-center items-start px-8"
     >
       {children}
     </motion.section>
   )
 }
-export const Interface = () => {
+export const Interface = (props) => {
+  const { section } = props
   return (
     <>
       <div className="flex flex-col items-center w-screen">
-        <AboutSection>
-          <h1 className="red font-[50px]">About</h1>
-        </AboutSection>
-
-        <EducationSection>
-          <h1>EDUCATION</h1>
-        </EducationSection>
-        <WorkSection>
-          <h1>WORK EXPERIENCE</h1>
-        </WorkSection>
-        <SkillsSection>
-          <h1>Skills</h1>
-        </SkillsSection>
-        <ContactSection>
-          <h1>Contact</h1>
-        </ContactSection>
+        <AboutSection></AboutSection>
+        <EducationSection></EducationSection>
+        <WorkSection section={section}></WorkSection>
+        <SkillsSection></SkillsSection>
+        <ContactSection></ContactSection>
       </div>
     </>
   )
@@ -90,18 +80,17 @@ const skills = [
     level: 5,
     note: "Advanced",
   },
-  { title: "SolidWorks", level: 3, note: "Advanced" },
-  { title: "AutoCAD", level: 3, note: "Advanced" },
-  { title: "Femap", level: 3, note: "Advanced" },
-  { title: "CATIAV5", level: 3, note: "Advanced" },
-  { title: "Python", level: 3, note: "Advanced" },
+  { title: "SolidWorks", level: 7, note: "Advanced" },
+  { title: "AutoCAD", level: 7, note: "Advanced" },
+  { title: "Femap", level: 7, note: "Advanced" },
+  { title: "CATIAV5", level: 7, note: "Advanced" },
 ]
 
 const SkillsSection = () => {
   return (
     <Section>
       <h1 className="text-5xl font-bold">Skills</h1>
-      <motion.div whileInView={"visible"} className="mt-8 space-y-4 mb-[80px]">
+      <motion.div whileInView={"visible"} className="mt-4 space-y-4 mb-[80px]">
         {skills.map((skill, index) => (
           <div className="w-64" key={index}>
             <motion.h3
@@ -150,7 +139,7 @@ const SkillsSection = () => {
 const ContactSection = () => {
   return (
     <Section>
-      <section className="mb-32 text-start">
+      <section className=" text-start mb-[250px]">
         <div className="">
           <div className="container mx-auto xl:px-32">
             <div className="grid items-center lg:grid-cols-2 ">
@@ -247,7 +236,8 @@ const ContactSection = () => {
   )
 }
 
-const WorkSection = () => {
+const WorkSection = (props) => {
+  const { section } = props
   return (
     <>
       <motion.section
@@ -259,7 +249,7 @@ const WorkSection = () => {
         }}
         exit={{ opacity: 0, y: 100 }}
         transition={{ duration: 0.5 }}
-        className=" self-start"
+        className={`${2 ? "mt-[000px]" : ""}  self-start`}
       >
         <Timeline className=" right-[-45px] max-w-[50%]">
           <Timeline.Item className="">
@@ -339,7 +329,7 @@ const EducationSection = () => {
         }}
         exit={{ opacity: 0, y: 100 }}
         transition={{ duration: 0.5 }}
-        className="self-start"
+        className="self-start "
       >
         <Timeline className="s right-[-45px] max-w-[50%] mb-[17%]">
           <Timeline.Item className="">

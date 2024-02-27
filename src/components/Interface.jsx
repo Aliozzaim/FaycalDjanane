@@ -57,7 +57,7 @@ const AboutSection = (props) => {
             Faycal Djanane
           </span>
         </h1>
-        <p className="text-xl  text-gray-700 mt-4 max-w-[90%] my-8  max-md:text-sm ">
+        <p className="text-xl  text-gray-700 mt-4 max-w-[55%] max-md:max-w-[90%] my-8  max-md:text-sm ">
           I'm a mechanical engineer with a passion for eco-design and customer
           service. With a{" "}
           <span className="bg-white font-[600] ">

@@ -1,7 +1,22 @@
 import { useFrame } from "@react-three/fiber"
-import React, { useEffect, useState } from "react"
+import { motion } from "framer-motion-3d"
+import React, { useEffect, useState, useContext, createContext } from "react"
+
+// const MenuContext = createContext()
+// export const useMenu = () => useContext(MenuContext)
+// export const MenuProvider = ({ children }) => {
+//   const [mOpened, setMOpened] = useState(null)
+
+//   return (
+//     <MenuContext.Provider value={{ mOpened, setMOpened }}>
+//       {children}
+//     </MenuContext.Provider>
+//   )
+// }
+
 export const Header = (props) => {
-  const { onSectionChange, setSection } = props
+  const { onSectionChange, setSection, blur, setBlur } = props
+  // const { mOpened, setMOpened } = useMenu()
 
   useEffect(() => {
     const handleScroll = () => {
@@ -12,10 +27,16 @@ export const Header = (props) => {
     return () => window.removeEventListener("scroll", handleScroll)
   }, [onSectionChange])
 
-  const [menuOpened, setMenuOpened] = useState(false)
+  const [menuOpened, setMenuOpened] = useState(blur)
 
   const toggleMenu = () => {
-    setMenuOpened(!menuOpened)
+    setMenuOpened(!blur)
+    return setBlur(!blur)
+  }
+  const closeMenu = (scrollCoff) => {
+    setMenuOpened(false)
+    setBlur(false)
+    return onSectionChange(scrollCoff)
   }
   useEffect(() => {
     const handleResize = () => {
@@ -29,15 +50,15 @@ export const Header = (props) => {
     return () => {
       window.removeEventListener("resize", handleResize)
     }
-  }, [menuOpened])
+  }, [menuOpened, blur])
+
   return (
     <>
-      {" "}
-      <header className="rel relative ">
-        <nav className="bg-white border-gray-200 px-4 min-[800px]:px-6 py-2.5 dark:bg-gray-800">
-          <div className="flex flex-wrap justify-between items-center mx-auto max-w-screen pr-[20px]">
+      <header className="absolute top-0 z-50 w-screen  ">
+        <nav className="bg-white relative border-gray-200 px-4 min-[800px]:px-6 py-2.5 dark:bg-gray-800">
+          <div className="flex flex-wrap justify-between items-center mx-auto max-w-screen pr-[20px] max-md:pr-[0px]">
             <a href="https://flowbite.com" className="flex items-center">
-              <span className="self-center text-[17px] max-min-[800px]:text-[14px] font-semibold whitespace-nowrap dark:text-white">
+              <span className="  max-md:text-[14px] self-center text-[17px] max-min-[800px]:text-[14px] font-semibold whitespace-nowrap dark:text-white">
                 Faycal Djanane | Mechanical Engineer
               </span>
             </a>
@@ -45,7 +66,7 @@ export const Header = (props) => {
               <button
                 onClick={toggleMenu}
                 type="button"
-                className="inline-flex items-center p-2 ml-1 text-sm text-gray-500 rounded-lg min-[800px]:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600 mr-7"
+                className="inline-flex items-center max-md:p-0 max-md:mr-0 p-2 ml-1 text-sm text-gray-500 rounded-lg min-[800px]:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600 mr-7"
                 aria-controls="mobile-menu-2"
                 aria-expanded={menuOpened ? "true" : "false"}
               >
@@ -79,8 +100,8 @@ export const Header = (props) => {
             <div
               className={
                 menuOpened
-                  ? "w-full min-[800px]:flex min-[800px]:w-auto min-[800px]:order-1 absolute bottom-[-218px] z-10  !bg-black right-0 "
-                  : "hidden justify-between items-center w-full    min-[800px]:flex min-[800px]:w-auto min-[800px]:order-1 absolute top-[24%] right-[40px]"
+                  ? "w-full min-[800px]:flex min-[800px]:w-auto min-[800px]:order-1 absolute bottom-[-218px] z-10 !bg-white right-0 shadow-2xl    "
+                  : "hidden justify-between items-center w-full min-[800px]:flex min-[800px]:w-auto min-[800px]:order-1 absolute top-[24%] right-[40px]"
               }
               id="mobile-menu-2"
             >
@@ -88,7 +109,7 @@ export const Header = (props) => {
                 <li>
                   <button
                     onClick={() => {
-                      onSectionChange(0)
+                      closeMenu(0)
                     }}
                     className=" py-2 pr-4 pl-3 text-black rounded bg-primary-700 min-[800px]:bg-transparent min-[800px]:text-primary-700 min-[800px]:p-0 dark:text-white"
                     aria-current="page"
@@ -99,7 +120,7 @@ export const Header = (props) => {
                 <li>
                   <button
                     onClick={() => {
-                      onSectionChange(1)
+                      closeMenu(1.19)
                     }}
                     className=" py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 min-[800px]:hover:bg-transparent min-[800px]:border-0 min-[800px]:hover:text-primary-700 min-[800px]:p-0 dark:text-gray-400 min-[800px]:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white min-[800px]:dark:hover:bg-transparent dark:border-gray-700"
                   >
@@ -109,7 +130,7 @@ export const Header = (props) => {
                 <li>
                   <button
                     onClick={() => {
-                      onSectionChange(2)
+                      closeMenu(2.45)
                     }}
                     className=" py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 min-[800px]:hover:bg-transparent min-[800px]:border-0 min-[800px]:hover:text-primary-700 min-[800px]:p-0 dark:text-gray-400 min-[800px]:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white min-[800px]:dark:hover:bg-transparent dark:border-gray-700"
                   >
@@ -119,7 +140,7 @@ export const Header = (props) => {
                 <li>
                   <button
                     onClick={() => {
-                      onSectionChange(3)
+                      closeMenu(3.7)
                     }}
                     className=" py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 min-[800px]:hover:bg-transparent min-[800px]:border-0 min-[800px]:hover:text-primary-700 min-[800px]:p-0 dark:text-gray-400 min-[800px]:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white min-[800px]:dark:hover:bg-transparent dark:border-gray-700"
                   >
@@ -129,7 +150,7 @@ export const Header = (props) => {
                 <li>
                   <button
                     onClick={() => {
-                      onSectionChange(4.15)
+                      closeMenu(5.1)
                     }}
                     className=" py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 min-[800px]:hover:bg-transparent min-[800px]:border-0 min-[800px]:hover:text-primary-700 min-[800px]:p-0 dark:text-gray-400 min-[800px]:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white min-[800px]:dark:hover:bg-transparent dark:border-gray-700"
                   >

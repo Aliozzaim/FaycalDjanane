@@ -17,7 +17,6 @@ export const Experience = (props) => {
           y: section === 0 ? 0 : -1,
         }}
       >
-        {" "}
         <ContactShadows
           opacity={0.5}
           scale={10}

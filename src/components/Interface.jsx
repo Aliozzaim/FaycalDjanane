@@ -5,8 +5,12 @@ import { useFrame } from "@react-three/fiber"
 import { useThree } from "@react-three/fiber"
 import { HiArrowNarrowRight, HiCalendar } from "react-icons/hi"
 import { Button, Timeline } from "flowbite-react"
+import TracingBeam from "./TracingBeam"
+import { useState } from "react"
 
 const Section = (props) => {
+  //const { menuOpened, setMenuOpened } = useMenu()
+  // console.log(menuOpened, setMenuOpened)
   const { children } = props
   return (
     <motion.section
@@ -18,7 +22,7 @@ const Section = (props) => {
       }}
       exit={{ opacity: 0, y: 100 }}
       transition={{ duration: 0.5 }}
-      className="mx-auto  h-screen w-screen flex flex-col justify-center items-start px-8"
+      className="mx-auto  !h-screen !w-screen flex flex-col justify-center items-start px-8 max-md:px-0"
     >
       {children}
     </motion.section>
@@ -28,7 +32,8 @@ export const Interface = (props) => {
   const { section } = props
   return (
     <>
-      <div className="flex flex-col items-center w-screen">
+      <div className="flex flex-col items-center w-screen ">
+        {/* <TracingBeam section={section} /> */}
         <AboutSection></AboutSection>
         <EducationSection></EducationSection>
         <WorkSection section={section}></WorkSection>
@@ -38,18 +43,21 @@ export const Interface = (props) => {
     </>
   )
 }
+const HeroButon = () => {
+  return <div className="box rainbow"></div>
+}
 const AboutSection = (props) => {
   const { children } = props
   return (
     <Section>
-      <div className="">
-        <h1 className="text-6xl font-[700] leading-snug">
+      <div className=" ml-5">
+        <h1 className="text-6xl font-[700] leading-snug max-md:text-3xl">
           Hi, I'm<br></br>
           <span className="bg-white text-black px-[20px] italic">
             Faycal Djanane
           </span>
         </h1>
-        <p className="text-xl text-gray-700 mt-4 max-w-[35%] my-8">
+        <p className="text-xl  text-gray-700 mt-4 max-w-[90%] my-8  max-md:text-sm ">
           I'm a mechanical engineer with a passion for eco-design and customer
           service. With a{" "}
           <span className="bg-white font-[600] ">
@@ -65,6 +73,7 @@ const AboutSection = (props) => {
         >
           Contact me
         </button>
+        <HeroButon></HeroButon>
       </div>
     </Section>
   )
@@ -89,10 +98,13 @@ const skills = [
 const SkillsSection = () => {
   return (
     <Section>
-      <h1 className="text-5xl font-bold">Skills</h1>
-      <motion.div whileInView={"visible"} className="mt-4 space-y-4 mb-[80px]">
+      <motion.div
+        whileInView={"visible"}
+        className="mt-4 max-sm:mt-0 space-y-4 mb-[80px] max-md:mt-[100px] max-md:ml-[100px]"
+      >
+        <h1 className="text-5xl font-bold max-md:text-[25px]">Skills</h1>
         {skills.map((skill, index) => (
-          <div className="w-64" key={index}>
+          <div className="w-64 max-md:w-[125px]" key={index}>
             <motion.h3
               initial={{ opacity: 0 }}
               variants={{
@@ -103,10 +115,10 @@ const SkillsSection = () => {
               }}
               exit={{ opacity: 0, y: 100 }}
               transition={{ duration: 0.5 }}
-              className="text-xl text-gray-800 font-bold flex justify-between"
+              className="text-xl text-gray-800 font-bold flex justify-between max-md:text-xs"
             >
               {skill.title}{" "}
-              <span className="text-[10px] opacity-70 text-black">
+              <span className="text-[10px] max-md:text-[9px] opacity-70 text-black">
                 {skill.note}
               </span>
             </motion.h3>
@@ -137,21 +149,114 @@ const SkillsSection = () => {
 }
 
 const ContactSection = () => {
+  const [isSubmitted, setIsSubmitted] = useState(false)
+  const [submitMessage, setSubmitMessage] = useState("")
+
+  const [loading, setLoading] = useState(false)
+  const [errors, setErrors] = useState({})
+
+  const validateForm = () => {
+    let isValid = true
+    const newErrors = {}
+
+    if (!form.name.trim()) {
+      newErrors.name = "Name is required"
+      isValid = false
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    if (!form.email.trim() || !emailRegex.test(form.email)) {
+      newErrors.email = "Valid email is required"
+      isValid = false
+    }
+
+    if (!form.message.trim()) {
+      newErrors.message = "Message is required"
+      isValid = false
+    }
+
+    setErrors(newErrors)
+    return isValid
+  }
+  const handleChange = (e) => {
+    const { target } = e
+    const { name, value } = target
+
+    setForm({
+      ...form,
+      [name]: value,
+    })
+
+    setErrors({
+      ...errors,
+      [name]: "",
+    })
+  }
+
+  const [form, setForm] = useState({
+    name: "",
+    email: "",
+    message: "",
+  })
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+
+    if (!validateForm()) {
+      return
+    }
+
+    setLoading(true)
+
+    emailjs
+      .send(
+        "service_mavqqno",
+        "template_hhppath",
+        {
+          from_name: form.name,
+          to_name: "Faycal Djanane",
+          from_email: form.email,
+          to_email: "Djananef@gmail.com",
+          message: form.message,
+        },
+        "RxwvCc3HpuVVISH5y"
+      )
+      .then(() => {
+        setForm({
+          name: "",
+          email: "",
+          message: "",
+        })
+        setTimeout(() => {
+          setLoading(false)
+        }, 1100)
+        alert("Thank you. I will get back to you as soon as possible.")
+        setIsSubmitted(true)
+      })
+      .catch((error) => {
+        setIsSubmitted(true)
+        setLoading(false)
+        console.error(error)
+        setSubmitMessage("Ahh, something went wrong. Please try again.")
+      })
+  }
   return (
     <Section>
-      <section className=" text-start mb-[250px]">
+      <section className=" mt-[25%] text-start mb-[250px] max-md:mb-[0px]">
         <div className="">
           <div className="container mx-auto xl:px-32">
             <div className="grid items-center lg:grid-cols-2 ">
               <div className="mb-12 md:mt-12 lg:mt-0 lg:mb-0">
-                <div className="relative z-[1] block rounded-lg w-[150%]  !bg-[hsla(0,0%,0%,0.4)] px-6 py-12 shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] backdrop-blur-[2px] dark:bg-[hsla(0,0%,5%,0.7)] dark:shadow-black/20 md:px-12 lg:-mr-14">
+                <div className="relative z-[1] block rounded-lg w-[150%] max-sm:w-[100%] max-sm:ml-[22px] !bg-[hsla(0,0%,0%,0.4)] px-6 py-12 shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] backdrop-blur-[2px] dark:bg-[hsla(0,0%,5%,0.7)] dark:shadow-black/20 md:px-12 lg:-mr-14">
                   <h2 className="mb-12 text-3xl text-white font-bold">
                     Contact me
                   </h2>
-                  <form>
+                  <form onSubmit={handleSubmit}>
                     <div className="relative mb-6" data-te-input-wrapper-init>
                       <input
+                        onChange={handleChange}
                         type="text"
+                        name="name"
                         className="peer block min-h-[auto] w-full rounded border bg-transparent py-[0.32rem] px-3 leading-[1.6] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 peer-focus:text-primary data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 dark:peer-focus:text-primary [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
                         id="exampleInput90"
                         placeholder="Name"
@@ -165,7 +270,9 @@ const ContactSection = () => {
                     </div>
                     <div className="relative mb-6" data-te-input-wrapper-init>
                       <input
+                        onChange={handleChange}
                         type="email"
+                        name="email"
                         className="peer block min-h-[auto] w-full rounded border bg-transparent py-[0.32rem] px-3 leading-[1.6] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 peer-focus:text-primary data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 dark:peer-focus:text-primary [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
                         id="exampleInput91"
                         placeholder="Email address"
@@ -179,6 +286,8 @@ const ContactSection = () => {
                     </div>
                     <div className="relative mb-6" data-te-input-wrapper-init>
                       <textarea
+                        name="message"
+                        onChange={handleChange}
                         className="peer  block min-h-[auto] w-full rounded border bg-transparent py-[0.32rem] px-3 leading-[1.6] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
                         id="exampleFormControlTextarea1"
                         rows="3"
@@ -208,6 +317,7 @@ const ContactSection = () => {
                     </div> */}
                     <button
                       type="button"
+                      onClick={(e) => handleSubmit(e)}
                       data-te-ripple-init
                       data-te-ripple-color="light"
                       className="inline-block w-full bg-[#025c38] rounded bg-primary px-6 pt-2.5 pb-2 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] lg:mb-0"
@@ -237,141 +347,158 @@ const ContactSection = () => {
 }
 
 const WorkSection = (props) => {
-  const { section } = props
   return (
     <>
-      <motion.section
-        initial={{ opacity: 0, y: 150 }}
-        whileInView={{
-          opacity: 1,
-          y: 0,
-          transition: { duration: 1 },
-        }}
-        exit={{ opacity: 0, y: 100 }}
-        transition={{ duration: 0.5 }}
-        className={`${2 ? "mt-[000px]" : ""}  self-start`}
-      >
-        <Timeline className=" right-[-45px] max-w-[50%]">
-          <Timeline.Item className="">
-            <Timeline.Point icon={HiCalendar} />
-            <Timeline.Content>
-              <Timeline.Time>
-                From August 2023 to September 2023 - Poznan , Poland
-              </Timeline.Time>
-              <Timeline.Title>Poznan University of Technology</Timeline.Title>
-              <Timeline.Body>
-                - Actively contributed to team-based problem-solving endeavors,
-                analyzing issues and devising solutions collectively. <br></br>{" "}
-                -Engaged in workshops and presentations to enhance
-                project-related knowledge and skills, fostering personal and
-                professional growth. try to make this more small. <br></br>{" "}
-                -Implemented meticulous sorting and organization of files,
-                spreadsheets, and reports to optimize accessibility and workflow
-                efficiency.
-              </Timeline.Body>
-              {/* <Button>
+      <Section>
+        <motion.section
+          initial={{ opacity: 0, y: 150 }}
+          whileInView={{
+            opacity: 1,
+            y: 0,
+            transition: { duration: 1 },
+          }}
+          exit={{ opacity: 0, y: 100 }}
+          transition={{ duration: 0.5 }}
+          className="max-[830px]:text-[xs]"
+        >
+          <Timeline className="right-[-45px] max-w-[50%] max-md:max-w-[84%] ">
+            <Timeline.Item className="">
+              <h1 className="text-4xl font-bold mb-2  max-md:text-2xl ">
+                Experinece{" "}
+              </h1>
+              <Timeline.Point icon={HiCalendar} />
+              <Timeline.Content>
+                <Timeline.Time className=" max-md:text-[10px]">
+                  From August 2023 to September 2023 - Poznan , Poland
+                </Timeline.Time>
+                <Timeline.Title className=" max-md:text-[12px] max-md:leading-[14px]">
+                  Poznan University of Technology
+                </Timeline.Title>
+                <Timeline.Body className="max-md:text-[10px]  max-md:leading-[14px]">
+                  - Actively contributed to team-based problem-solving
+                  endeavors, analyzing issues and devising solutions
+                  collectively. <br></br>
+                  -Engaged in workshops and presentations to enhance
+                  project-related knowledge and skills, fostering personal and
+                  professional growth. try to make this more small. <br></br>
+                  <span className="max-sm:hidden">
+                    {" "}
+                    -Implemented meticulous sorting and organization of files,
+                    spreadsheets, and reports to optimize accessibility and
+                    workflow efficiency.
+                  </span>
+                </Timeline.Body>
+                {/* <Button>
               Learn More
               <HiArrowNarrowRight className="ml-2 h-3 w-3" />
             </Button> */}
-            </Timeline.Content>
-          </Timeline.Item>
-          <Timeline.Item>
-            <Timeline.Point icon={HiCalendar} />
-            <Timeline.Content>
-              <Timeline.Time>
-                {" "}
-                From September 2022 to December 2022 - Rouib, Algeria
-              </Timeline.Time>
-              <Timeline.Title>
-                National Company for Industrial Vehicles
-              </Timeline.Title>
-              <Timeline.Body>
-                - Developing hands-on expertise in mechanical engineering tools
-                and software. <br></br> -Engaged in workshops and presentations
-                to enhance project-related knowledge and skills, fostering
-                personal and professional growth. try to make this more small.
-              </Timeline.Body>
-            </Timeline.Content>
-          </Timeline.Item>
-          <Timeline.Item>
-            <Timeline.Point icon={HiCalendar} />
-            <Timeline.Content>
-              <Timeline.Time>
-                From October 2020 to October 2021 - Rouib, Algeria
-              </Timeline.Time>
-              <Timeline.Title>
-                Customer Service Specialist at Call Center
-              </Timeline.Title>
-              <Timeline.Body>
-                - Demonstrated exceptional communication skills, handling an
-                average of 40 customer inquiries per day with professionalism
-                and efficiency. <br></br> -Assisted customers with their
-                technical and operational queries related to products via Avaya
-                desktop, phone, email, chat, and ticketing systems.
-              </Timeline.Body>
-            </Timeline.Content>
-          </Timeline.Item>
-        </Timeline>
-      </motion.section>
-      -
+              </Timeline.Content>
+            </Timeline.Item>
+            <Timeline.Item>
+              <Timeline.Point icon={HiCalendar} />
+              <Timeline.Content>
+                <Timeline.Time className=" max-md:text-[10px]">
+                  From September 2022 to December 2022 - Rouib, Algeria
+                </Timeline.Time>
+                <Timeline.Title className=" max-md:text-[12px] max-md:leading-[14px] ">
+                  National Company for Industrial Vehicles
+                </Timeline.Title>
+                <Timeline.Body className="max-md:text-[10px]  max-md:leading-[14px]">
+                  - Developing hands-on expertise in mechanical engineering
+                  tools and software. <br></br> -Engaged in workshops and
+                  presentations to enhance project-related knowledge and skills,
+                  fostering personal and professional growth. try to make this
+                  more small.
+                </Timeline.Body>
+              </Timeline.Content>
+            </Timeline.Item>
+            <Timeline.Item>
+              <Timeline.Point icon={HiCalendar} />
+              <Timeline.Content>
+                <Timeline.Time className=" max-md:text-[10px]">
+                  From October 2020 to October 2021 - Rouib, Algeria
+                </Timeline.Time>
+                <Timeline.Title className=" max-md:text-[12px] max-md:leading-[14px] ">
+                  Customer Service Specialist at Call Center
+                </Timeline.Title>
+                <Timeline.Body className="max-md:text-[10px]  max-md:leading-[14px]">
+                  - Demonstrated exceptional communication skills, handling an
+                  average of 40 customer inquiries per day with professionalism
+                  and efficiency. <br></br> -Assisted customers with their
+                  technical and operational queries related to products via
+                  Avaya desktop, phone, email, chat, and ticketing systems.
+                </Timeline.Body>
+              </Timeline.Content>
+            </Timeline.Item>
+          </Timeline>
+        </motion.section>
+      </Section>
     </>
   )
 }
 const EducationSection = () => {
   return (
     <>
-      <motion.section
-        initial={{ opacity: 0, y: 150 }}
-        whileInView={{
-          opacity: 1,
-          y: 0,
-          transition: { duration: 1 },
-        }}
-        exit={{ opacity: 0, y: 100 }}
-        transition={{ duration: 0.5 }}
-        className="self-start "
-      >
-        <Timeline className="s right-[-45px] max-w-[50%] mb-[17%]">
-          <Timeline.Item className="">
-            <Timeline.Point icon={HiCalendar} />
-            <Timeline.Content>
-              <Timeline.Time>
-                Since February 2023 Poznan University of Technology Poznań,
-                Poland
-              </Timeline.Time>
-              <Timeline.Title className="my-[5px]">
-                MSc Mechanical and Automotive Engineering
-              </Timeline.Title>
-              <Timeline.Body>
-                - Thesis Statement:Application of selected eco-design strategies
-                in the development of Electric Scooters. <br></br> -Implemented
-                meticulous sorting and organization of files, spreadsheets, and
-                reports to optimize accessibility and workflow efficiency.
-              </Timeline.Body>
-              {/* <Button>
+      <Section>
+        <motion.section
+          initial={{ opacity: 0, y: 150 }}
+          whileInView={{
+            opacity: 1,
+            y: 0,
+            transition: { duration: 1 },
+          }}
+          exit={{ opacity: 0, y: 100 }}
+          transition={{ duration: 0.5 }}
+          className="self-start "
+        >
+          <Timeline className=" right-[-45px] max-w-[50%] max-sm:max-w-[85%] mb-[17%]">
+            <h1 className="text-3xl font-bold mb-5  max-md:text-3xl ml-5">
+              Education
+            </h1>
+            <Timeline.Item className="">
+              <Timeline.Point icon={HiCalendar} />
+              <Timeline.Content>
+                <Timeline.Time className="max-md:text-[14px]  max-md:leading-[2px]">
+                  Since February 2023 Poznan University of Technology Poznań,
+                  Poland
+                </Timeline.Time>
+
+                <Timeline.Title className="my-[5px]  max-sm:my-[10px] max-md:text-[12px] max-md:leading-[14px]">
+                  MSc Mechanical and Automotive Engineering
+                </Timeline.Title>
+                <Timeline.Body className="max-md:text-[10px]  max-md:leading-[13px]">
+                  - Thesis Statement:Application of selected eco-design
+                  strategies in the development of Electric Scooters. <br></br>{" "}
+                  -Implemented meticulous sorting and organization of files,
+                  spreadsheets, and reports to optimize accessibility and
+                  workflow efficiency.
+                </Timeline.Body>
+                {/* <Button>
               Learn More
               <HiArrowNarrowRight className="ml-2 h-3 w-3" />
             </Button> */}
-            </Timeline.Content>
-          </Timeline.Item>
-          <Timeline.Item>
-            <Timeline.Point icon={HiCalendar} />
-            <Timeline.Content>
-              <Timeline.Time>
-                University M’hamed Bougara Boumerdes Algeria From September 2017
-                to September 2021 - Boumerdes, Algeria
-              </Timeline.Time>
-              <Timeline.Title className="my-[5px]">
-                BSc Mechanical Engineering
-              </Timeline.Title>
-              <Timeline.Body>
-                Thesis Statement: Design and Simulation of an Ampliroll Box on
-                k120
-              </Timeline.Body>
-            </Timeline.Content>
-          </Timeline.Item>
-        </Timeline>
-      </motion.section>
+              </Timeline.Content>
+            </Timeline.Item>
+            <Timeline.Item>
+              <Timeline.Point icon={HiCalendar} />
+              <Timeline.Content>
+                <Timeline.Time className="max-md:!leading-[10px] max-md:text-[13.7px]">
+                  University M’hamed Bougara Boumerdes Algeria From September
+                  2017 to September 2021 - Boumerdes, Algeria
+                </Timeline.Time>
+
+                <Timeline.Title className="my-[5px] max-sm:my-[10px]   max-md:text-[12px] max-md:leading-[14px]">
+                  BSc Mechanical Engineering
+                </Timeline.Title>
+                <Timeline.Body className="max-md:text-[10px]  max-md:leading-[14px]">
+                  Thesis Statement: Design and Simulation of an Ampliroll Box on
+                  k120
+                </Timeline.Body>
+              </Timeline.Content>
+            </Timeline.Item>
+          </Timeline>
+        </motion.section>
+      </Section>
     </>
   )
 }

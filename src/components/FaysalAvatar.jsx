@@ -15,11 +15,6 @@ export function FaysalAvatar(props) {
   const { actions } = useAnimations(animations, group)
   useEffect(() => {
     actions[currentAnimation].play()
-    // if (condition) {
-
-    // } else {
-    //   actions["hi"].play()
-    // }
 
     if (section == 0) {
       console.log("tekrar 0 ")

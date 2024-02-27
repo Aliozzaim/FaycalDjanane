@@ -28,26 +28,20 @@ export function Avatar(props) {
   RightTurn[0].name = "RightTurn"
   Waving[0].name = "Waving"
   HardLanding[0].name = "HardLanding"
-  console.log(Waving)
+
   const { actions } = useAnimations(
     [walkingAnimation[0], RightTurn[0], Waving[0], HardLanding[0]],
     group
   )
 
-  console.log(actions)
-  console.log("started", started)
-
   useFrame((state) => {})
   const onLeave = () => {
-    console.log("left")
     setStarted(true)
   }
   const handleHover = () => {
-    console.log("hovered")
     setStarted(false)
   }
   useEffect(() => {
-    console.log("section", section)
     if (section === 0) {
       if (started) {
         actions["walking"].reset().fadeIn(0.5).play()
@@ -60,7 +54,6 @@ export function Avatar(props) {
       if (!hardLandingPlayed) {
         actions["HardLanding"].reset().fadeIn(0.5).play()
         setHardLandingPlayed(true)
-        console.log("hardLandingPlayed", hardLandingPlayed)
       }
       // Clean-up function, reset animations
       return () => {

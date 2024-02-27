@@ -13,8 +13,6 @@ export const ScrollManager = (props) => {
   data.fill.classList.add("abosolute")
 
   useEffect(() => {
-    console.log("section", section)
-
     gsap.to(data.el, {
       duration: 1,
       scrollTop: section * data.el.clientHeight,
@@ -45,7 +43,6 @@ export const ScrollManager = (props) => {
         data.scroll.current > lastScroll.current &&
         data.scroll.current < 1 / (data.pages - 2)
       ) {
-        console.log("scrolling down and at the top of page 2")
         onSectionChange(2.45)
       }
       if (
@@ -68,7 +65,6 @@ export const ScrollManager = (props) => {
         data.scroll.current < lastScroll.current &&
         data.scroll.current > 2 / (data.pages - 1)
       ) {
-        console.log("scrolling up and at the bottom of page 2")
         onSectionChange(2.45)
       }
     }

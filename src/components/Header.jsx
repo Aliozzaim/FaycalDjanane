@@ -44,6 +44,9 @@ export const Header = (props) => {
         setMenuOpened(false)
       }
     }
+    if (!blur) {
+      setMenuOpened(false)
+    }
 
     window.addEventListener("resize", handleResize)
 
@@ -150,7 +153,7 @@ export const Header = (props) => {
                 <li>
                   <button
                     onClick={() => {
-                      closeMenu(5.1)
+                      closeMenu(6)
                     }}
                     className=" py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 min-[800px]:hover:bg-transparent min-[800px]:border-0 min-[800px]:hover:text-primary-700 min-[800px]:p-0 dark:text-gray-400 min-[800px]:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white min-[800px]:dark:hover:bg-transparent dark:border-gray-700"
                   >

@@ -17,7 +17,6 @@ export function FaysalAvatar(props) {
     actions[currentAnimation].play()
 
     if (section == 0) {
-      console.log("tekrar 0 ")
       setCurrentAnimation("hi")
       setAnimationPlayed(true)
     } else if (section === 1 && !animationPlayed) {
@@ -108,7 +107,7 @@ export function FaysalAvatar(props) {
         >
           <circleGeometry args={[3.8, 32]} />
           <meshStandardMaterial
-            attach="material"
+            attach="ma+terial"
             color={0x2ecc71}
             metalness={0.8}
             roughness={0.1}

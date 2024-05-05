@@ -36,7 +36,7 @@ export function FaysalAvatar(props) {
       changeAnimation("show")
     }
 
-    if (section === 0) {
+    if (section === 0 && selectedValue !== null) {
       actions[currentAnimation].fadeIn(0.2).play()
     } else if (section === 1.19) {
       let landingCompleted = false

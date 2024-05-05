@@ -10,11 +10,7 @@ export function Avatar(props) {
   const { section } = props
   const [started, setStarted] = useState(true)
   const [hardLandingPlayed, setHardLandingPlayed] = useState(false)
-  // const { animationIndex, setAnimationIndex, animations, setAnimations } =
-  //   useCharacterAnimations()
-  // useEffect(() => {
-  //   setAnimations(names)
-  // }, [names])
+
   const group = useRef()
   const { nodes, materials, animations } = useGLTF(
     "models/65d86ab61277359fc9d69b3e1.glb"
@@ -41,6 +37,7 @@ export function Avatar(props) {
   const handleHover = () => {
     setStarted(false)
   }
+
   useEffect(() => {
     if (section === 0) {
       if (started) {

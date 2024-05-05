@@ -7,7 +7,7 @@ import { HiArrowNarrowRight, HiCalendar } from "react-icons/hi"
 import { Button, Timeline } from "flowbite-react"
 import TracingBeam from "./TracingBeam"
 import { useState } from "react"
-
+import UnstyledSelectBasic from "./input"
 const Section = (props) => {
   //const { menuOpened, setMenuOpened } = useMenu()
   // console.log(menuOpened, setMenuOpened)
@@ -436,6 +436,7 @@ const WorkSection = (props) => {
     </>
   )
 }
+
 const EducationSection = () => {
   return (
     <>
@@ -449,7 +450,7 @@ const EducationSection = () => {
           }}
           exit={{ opacity: 0, y: 100 }}
           transition={{ duration: 0.5 }}
-          className="self-start "
+          className="self-start relative "
         >
           <Timeline className=" right-[-45px] max-w-[50%] max-sm:max-w-[85%] mb-[17%]">
             <h1 className="text-3xl font-bold mb-5  max-md:text-3xl ml-5">

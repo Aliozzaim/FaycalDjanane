@@ -5,8 +5,17 @@ import React, { useEffect, useReducer } from "react"
 import { useFrame } from "@react-three/fiber"
 import { motion } from "framer-motion-3d"
 import { ContactShadows } from "@react-three/drei"
+import { Html } from "@react-three/drei"
+import UnstyledSelectBasic from "./input"
+import { useState } from "react"
 
 export const Experience = (props) => {
+  const [selectedValue, setSelectedValue] = useState(null)
+
+  const handleSelectedValueChange = (newValue) => {
+    setSelectedValue(newValue)
+  }
+
   const { section } = props
   return (
     <>
@@ -16,6 +25,7 @@ export const Experience = (props) => {
         animate={{
           y: section === 0 ? 0 : -1,
         }}
+        className="  relative"
       >
         <ContactShadows
           opacity={0.5}
@@ -25,8 +35,14 @@ export const Experience = (props) => {
           resolution={256}
           color="#000000"
         />
-        <FaysalAvatar section={section} />
-        {/* <Avatar section={section} /> */}
+        {section === 0 ? (
+          <Html className="absolute top-0 right-[-600px]">
+            <UnstyledSelectBasic
+              handleSelectedValueChange={handleSelectedValueChange}
+            ></UnstyledSelectBasic>
+          </Html>
+        ) : null}
+        <FaysalAvatar selectedValue={selectedValue} section={section} />
       </motion.group>
 
       <ambientLight intensity={1} />

@@ -1,61 +1,62 @@
-import React, { useEffect, useRef, useState } from "react"
-import { Float, useAnimations, useFBX, useGLTF } from "@react-three/drei"
+import React, { useCallback, useEffect, useRef, useState } from "react"
+import { Float, Html, useAnimations, useFBX, useGLTF } from "@react-three/drei"
 import { useFrame } from "@react-three/fiber"
 import { motion } from "framer-motion-3d"
-import { ContactShadows } from "@react-three/drei"
-import { useThree } from "@react-three/fiber"
-import { MeshDepthMaterial } from "three"
+import { useContext } from "react"
+
 export function FaysalAvatar(props) {
-  const { section } = props
+  const { section, selectedValue } = props
   const [currentAnimation, setCurrentAnimation] = useState("hi")
   const [animationPlayed, setAnimationPlayed] = useState(true)
   const [competed, setcompeted] = useState(false)
   const group = useRef()
   const { nodes, materials, animations } = useGLTF("/models/Favatar.glb")
   const { actions } = useAnimations(animations, group)
+
   useEffect(() => {
-    actions[currentAnimation].play()
-
-    if (section == 0) {
-      setCurrentAnimation("hi")
-      setAnimationPlayed(true)
-    } else if (section === 1 && !animationPlayed) {
-      //   actions["hi"].fadeIn(2).play()
-    } else if (section === 1 && animationPlayed) {
-      actions[currentAnimation].fadeOut(0.2)
-      actions["hi"].fadeOut(0.2)
-      actions["landing"].fadeIn(0.5).play()
-      setAnimationPlayed(false)
-      setTimeout(() => {
-        actions["landing"].fadeOut(0.5)
-        setCurrentAnimation("pointing")
-      }, 2000)
-    } else if (section == 2) {
-      actions["pointing"].fadeOut(0.2)
-      actions["landing"].play()
-      setAnimationPlayed(false)
-      setTimeout(() => {
-        actions["landing"].fadeOut(0.5)
-        setCurrentAnimation("show")
-      }, 100)
-    } else if (section == 3) {
-      actions["show"].fadeOut(0.2)
-      actions["landing"].play()
-
-      setTimeout(() => {
-        actions["landing"].fadeOut(0.5)
-        setCurrentAnimation("lookingFor")
-      }, 100)
-    } else if (section == 5) {
-      actions["lookingFor"].fadeOut(0.2)
-      actions["landing"].play()
-
-      setTimeout(() => {
-        actions["landing"].fadeOut(0.5)
-        setCurrentAnimation("Armature.003|mixamo.com|Layer0")
-      }, 100)
+    console.log(actions)
+    console.log("useEffect", selectedValue)
+    // if (selectedValue) {
+    //   actions[currentAnimation].fadeOut(0.2)
+    //   console.log("Actions for Selected Value:", actions[selectedValue])
+    //   setTimeout(() => {
+    //     setCurrentAnimation(selectedValue)
+    //     actions[selectedValue].fadeIn(0.5).play()
+    //   }, 200)
+    // }
+    if (selectedValue == "Look for") {
+      changeAnimation("lookingFor")
+    } else if (selectedValue == "Wave") {
+      changeAnimation("hi")
+    } else if (selectedValue == "Pointing") {
+      changeAnimation("pointing")
+    } else if (selectedValue == "Warm up") {
+      changeAnimation("Armature.003|mixamo.com|Layer0")
+    } else if (selectedValue == "Show") {
+      changeAnimation("show")
     }
-  }, [section, animationPlayed, actions, currentAnimation])
+
+    if (section === 0) {
+      actions[currentAnimation].fadeIn(0.2).play()
+    } else if (section === 1.19) {
+      let landingCompleted = false
+      changeAnimation("landing", () => {
+        setTimeout(() => {
+          landingCompleted = true
+          actions["landing"].fadeOut(0.3)
+        }, 2200)
+      })
+    }
+  }, [section, selectedValue])
+
+  const changeAnimation = (animation, callback = () => {}) => {
+    actions[currentAnimation].fadeOut(0.2)
+    setTimeout(() => {
+      setCurrentAnimation(animation)
+      actions[animation].fadeIn(0.2).play()
+      callback()
+    }, 200)
+  }
 
   return (
     <>

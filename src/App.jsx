@@ -9,6 +9,8 @@ import { MotionConfig } from "framer-motion"
 import { LoadingPage } from "./components/LoadingPage"
 import TracingBeam from "./components/TracingBeam"
 
+import { Html } from "@react-three/drei"
+
 function App() {
   const [section, setSection] = useState(0)
   const [blur, setBlur] = useState(false)
@@ -28,6 +30,7 @@ function App() {
         >
           <Header onSectionChange={setSection} setBlur={setBlur} blur={blur} />
           {/* <TracingBeam /> */}
+
           <Canvas
             onClick={() => setBlur(false)}
             className={`${blur ? "blur" : blur}`}
